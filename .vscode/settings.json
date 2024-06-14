@@ -3,5 +3,20 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "css.lint.unknownAtRules": "ignore", // Tailwind CSS
-  "typescript.preferences.importModuleSpecifier": "non-relative"
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "cSpell.ignoreWords": [
+    "tailwindcss",
+    "aora",
+    "pretendard"
+  ],
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    ".eslintrc.json",
+    "tailwind.config.js"
+  ]
 }
