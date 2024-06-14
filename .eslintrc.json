@@ -56,6 +56,10 @@
       "afterColon": true,
       "beforeColon": false
     }],
+    "keyword-spacing": ["error", { "before": true, "after": true }],
+    "object-curly-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "never"],
+    "space-in-parens": ["error", "never"],
     "arrow-parens": ["warn", "always"],
     "arrow-spacing": ["error", { "before": true, "after": true }],
 
