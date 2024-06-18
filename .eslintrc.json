@@ -136,6 +136,8 @@
     ],
     // require() 사용 체크
     "@typescript-eslint/no-var-requires": "off",
+    // @ts 주석 허용
+    "@typescript-eslint/ban-ts-comment": "off",
     // no-undef 옵션 off
     "no-undef": "off" // @see https://typescript-eslint.io/troubleshooting/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
   }
