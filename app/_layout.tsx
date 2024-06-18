@@ -1,13 +1,13 @@
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { Stack, SplashScreen } from "expo-router";
 import { useEffect } from "react";
 
 import "react-native-reanimated";
 import "@/styles/global.css";
+
 import GlobalProvider from "@/context/global-provider";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// assets이 불러와지기 전에 스플래시 화면이 자동으로 숨겨지는 것을 방지합니다.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -28,7 +28,7 @@ export default function RootLayout() {
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
 
-  if (!fontsLoaded && !error) return null;
+  if (!fontsLoaded || error) return null;
 
   return (
     <GlobalProvider>
