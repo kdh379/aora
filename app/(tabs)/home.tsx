@@ -9,18 +9,28 @@ import Input from "@/components/input";
 import CustomButton from "@/components/custom-button";
 import Trending from "@/components/trending";
 import EmptyState from "@/components/empty-state";
-import { Post, getAllPosts } from "@/lib/appwrite";
+import { Post, getAllPosts, getLatestPosts } from "@/lib/appwrite";
 import useAppwrite from "@/lib/use-appwrite";
 import VideoCard from "@/components/video-card";
 
 const Home = () => {
-  const { data: posts, isLoading, refetch } = useAppwrite<Post[]>(getAllPosts);
+  const {
+    data: posts,
+    isLoading: isPostsLoading,
+    refetch: refetchPosts,
+  } = useAppwrite<Post[]>(getAllPosts);
+  const {
+    data: latestPosts,
+    isLoading: isLatestPostsLoading,
+    refetch: refetchLatestPosts,
+  } = useAppwrite<Post[]>(getLatestPosts);
   const { user } = useGlobalContext();
   const [refreshing, setRefreshing] = useState(false);
 
   const handleRefresh = async() => {
     setRefreshing(true);
-    await refetch();
+    await refetchPosts();
+    await refetchLatestPosts();
     setRefreshing(false);
   };
 
@@ -71,13 +81,13 @@ const Home = () => {
               </CustomButton>
 
             </View>
-            <View className="w-full flex-1 pb-8 pt-5">
+            <View className="mb-8 mt-5 w-full flex-1">
               <Text className="font-regular text-lg text-gray-100">
                 최근 비디오
               </Text>
 
               <Trending
-                posts={[]}
+                posts={latestPosts || []}
               />
             </View>
           </View>

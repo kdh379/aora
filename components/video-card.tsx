@@ -1,13 +1,13 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { View, Text, Image } from "react-native";
+import React from "react";
 
 import { Post } from "@/lib/appwrite";
 import { icons } from "@/constants";
+import Video from "@/components/video";
 
 interface VideoCardProps extends Post {}
 
 const VideoCard = ({ title, thumbnail, video, creator: { username, avatar } }: VideoCardProps) => {
-  const [isPlaying, setIsPlaying] = useState(false);
 
   return (
     <View className="mb-14 flex-col items-center px-4">
@@ -47,28 +47,12 @@ const VideoCard = ({ title, thumbnail, video, creator: { username, avatar } }: V
         </View>
       </View>
 
-      {isPlaying
-        ? (
-          <Text className="text-white">Playing</Text>
-        )
-        : (
-          <TouchableOpacity
-            className="relative h-60 w-full items-center justify-center rounded-xl"
-            activeOpacity={0.7}
-            onPress={() => setIsPlaying(true)}
-          >
-            <Image
-              source={{ uri: thumbnail }}
-              className="mt-3 size-full rounded-xl"
-              resizeMode="cover"
-            />
-            <Image
-              source={icons.play}
-              className="absolute size-12"
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        )}
+      <Video
+        uri={video}
+        thumbnail={thumbnail}
+        width="100%"
+        height={240}
+      />
     </View>
   );
 };
