@@ -19,7 +19,7 @@ export default function Profile() {
   return (
     <View>
       <Text>Profile</Text>
-      <CustomButton handlePress={handleSignOut}>
+      <CustomButton onPress={handleSignOut}>
         <Text>로그아웃</Text>
       </CustomButton>
     </View>

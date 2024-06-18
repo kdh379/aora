@@ -53,7 +53,7 @@ export default function App() {
 
             <CustomButton
               className="mt-7 w-full"
-              handlePress={() => router.push("/sign-in")}
+              onPress={() => router.push("/sign-in")}
             >
               <Text className="font-semibold text-primary">이메일로 시작하기</Text>
             </CustomButton>

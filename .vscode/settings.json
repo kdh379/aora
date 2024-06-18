@@ -3,6 +3,10 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "css.lint.unknownAtRules": "ignore", // Tailwind CSS
+  "tailwindCSS.experimental.classRegex": [ // cva, cx 함수 내에서 Tailwind 클래스 자동완성
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "cSpell.ignoreWords": [
     "tailwindcss",
