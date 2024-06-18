@@ -57,7 +57,7 @@ export const createUser = async({ email, password, username }: SignUpProps) => {
   }
 };
 
-export async function signIn({ email, password }: SignInProps) {
+export const signIn = async({ email, password }: SignInProps) => {
   try {
     const session = await account.createEmailPasswordSession(email, password);
 
@@ -68,13 +68,29 @@ export async function signIn({ email, password }: SignInProps) {
     console.error(error);
     throw new Error("Failed to sign in", { cause: error });
   }
-}
+};
 
 export interface CurrentUser extends Models.Document, User {}
 
+const hasCurrentUser = (result: Models.Document): result is CurrentUser => {
+  return "email" in result && "username" in result;
+};
+
+const getAccount = async() => {
+  try {
+    // 로그인 정보가 없는 상태에서 요청할 경우 User (role: guests) missing scope (account) 에러 발생
+    const currentAccount = await account.get();
+    if (!currentAccount) return;
+
+    return currentAccount;
+  } catch (error) {
+    // 로그인 정보 확인만을 위한 함수로 사용하므로 에러 처리 생략
+  }
+};
+
 export const getCurrentUser = async(): Promise<CurrentUser | undefined> => {
   try {
-    const currentAccount = await account.get();
+    const currentAccount = await getAccount();
     if (!currentAccount) return;
 
     const result = await databases.listDocuments(
@@ -96,6 +112,11 @@ export const getCurrentUser = async(): Promise<CurrentUser | undefined> => {
   }
 };
 
-const hasCurrentUser = (result: Models.Document): result is CurrentUser => {
-  return "email" in result && "username" in result;
+export const signOut = async() => {
+  try {
+    return await account.deleteSession("current");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to sign out", { cause: error });
+  }
 };
