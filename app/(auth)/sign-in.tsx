@@ -12,6 +12,7 @@ import { images } from "@/constants";
 import Input from "@/components/input";
 import { getCurrentUser, signIn } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/global-provider";
+import SecureInput from "@/components/secure-input";
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -93,7 +94,7 @@ const SignIn = () => {
                     label="비밀번호"
                     required
                   >
-                    <Input
+                    <SecureInput
                       value={value}
                       placeholder="********"
                       keyboardType="default"
@@ -107,7 +108,7 @@ const SignIn = () => {
             </View>
           </Form>
           <CustomButton
-            handlePress={form.handleSubmit(onSubmit)}
+            onPress={form.handleSubmit(onSubmit)}
             className="mt-7"
             isLoading={isSubmitting}
           >

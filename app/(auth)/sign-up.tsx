@@ -13,6 +13,7 @@ import { createUser, getCurrentUser } from "@/lib/appwrite";
 import { Form, FormField, FormItem } from "@/components/form";
 import Input from "@/components/input";
 import { useGlobalContext } from "@/context/global-provider";
+import SecureInput from "@/components/secure-input";
 
 const signUpSchema = z.object({
   username: z.string().min(3),
@@ -115,7 +116,7 @@ const SignUp = () => {
                     label="비밀번호"
                     required
                   >
-                    <Input
+                    <SecureInput
                       value={value}
                       placeholder="********"
                       keyboardType="default"
@@ -130,7 +131,7 @@ const SignUp = () => {
           </Form>
 
           <CustomButton
-            handlePress={form.handleSubmit(onSubmit)}
+            onPress={form.handleSubmit(onSubmit)}
             className="mt-7"
             isLoading={isSubmitting}
           >
