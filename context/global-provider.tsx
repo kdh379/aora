@@ -1,18 +1,18 @@
 import React, { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 
-import { CurrentUser, getCurrentUser } from "../lib/appwrite";
+import { User, getCurrentUser } from "../lib/appwrite";
 
 interface GlobalContextValue {
-  user: CurrentUser | null;
+  user: User | null;
   isLoading: boolean;
-  setUser: (value: CurrentUser | null) => void;
+  setUser: (value: User | null) => void;
 }
 
 const GlobalContext = createContext({} as GlobalContextValue);
 export const useGlobalContext = () => useContext(GlobalContext);
 
 const GlobalProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<CurrentUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

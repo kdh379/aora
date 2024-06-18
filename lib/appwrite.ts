@@ -10,6 +10,16 @@ export const config = {
   storageId: "666ee9a7002bcfd1832f",
 };
 
+const {
+  endpoint,
+  platform,
+  projectId,
+  databaseId,
+  userCollectionId,
+  videoCollectionId,
+  storageId,
+} = config;
+
 // Init your React Native SDK
 const client = new Client();
 
@@ -22,6 +32,21 @@ client
 const account = new Account(client);
 const avatars = new Avatars(client);
 const databases = new Databases(client);
+
+export interface User extends Models.Document {
+  email: string;
+  username: string;
+  accountId: string;
+  avatar: string;
+}
+
+interface SignUpProps extends Pick<User, "email" | "username"> {
+  password: string;
+}
+
+interface SignInProps extends Pick<User, "email"> {
+  password: string;
+}
 
 export const createUser = async({ email, password, username }: SignUpProps) => {
   try {
@@ -70,12 +95,6 @@ export const signIn = async({ email, password }: SignInProps) => {
   }
 };
 
-export interface CurrentUser extends Models.Document, User {}
-
-const hasCurrentUser = (result: Models.Document): result is CurrentUser => {
-  return "email" in result && "username" in result;
-};
-
 const getAccount = async() => {
   try {
     // 로그인 정보가 없는 상태에서 요청할 경우 User (role: guests) missing scope (account) 에러 발생
@@ -88,7 +107,7 @@ const getAccount = async() => {
   }
 };
 
-export const getCurrentUser = async(): Promise<CurrentUser | undefined> => {
+export const getCurrentUser = async(): Promise<User | undefined> => {
   try {
     const currentAccount = await getAccount();
     if (!currentAccount) return;
@@ -103,9 +122,7 @@ export const getCurrentUser = async(): Promise<CurrentUser | undefined> => {
 
     const currentUser = result.documents[0];
 
-    if (!hasCurrentUser(currentUser)) throw Error;
-
-    return currentUser;
+    return currentUser as User;
   } catch (error) {
     console.error(error);
     throw new Error("Failed to get current user", { cause: error });
@@ -118,5 +135,27 @@ export const signOut = async() => {
   } catch (error) {
     console.error(error);
     throw new Error("Failed to sign out", { cause: error });
+  }
+};
+
+export interface Post extends Models.Document {
+  title: string;
+  thumbnail: string;
+  prompt: string;
+  video: string;
+  creator: User;
+}
+
+export const getAllPosts = async(): Promise<Post[]> => {
+  try {
+    const posts = await databases.listDocuments(
+      databaseId,
+      videoCollectionId,
+    );
+
+    return posts.documents as Post[];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get all posts", { cause: error });
   }
 };
