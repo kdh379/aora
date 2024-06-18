@@ -3,15 +3,17 @@ import React from "react";
 
 import { images } from "@/constants";
 import CustomButton from "@/components/custom-button";
+import { cn } from "@/lib/cn";
 
 interface EmptyStateProps {
   title: string;
   subtitle: string;
+  className?: string;
 }
 
-const EmptyState = ({ title, subtitle }: EmptyStateProps) => {
+const EmptyState = ({ title, subtitle, className }: EmptyStateProps) => {
   return (
-    <View className="items-center justify-center px-4">
+    <View className={cn("items-center justify-center px-4", className)}>
       <Image
         source={images.empty}
         className="h-[215px] w-[270px]"
