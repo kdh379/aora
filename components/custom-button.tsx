@@ -1,11 +1,12 @@
-import { TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { VariantProps, cva } from "class-variance-authority";
 
 import { cn } from "@/lib/cn";
+import { icons } from "@/constants";
 
 const buttonVariants = cva(
-  "items-center justify-center rounded-xl",
+  "items-center justify-center rounded-xl flex-row",
   {
     variants: {
       variant: {
@@ -43,6 +44,14 @@ const CustomButton = ({ className, isLoading, variant, size, children, ...props 
       {...props}
     >
       {children}
+
+      {isLoading && (
+        <Image
+          source={icons.loading}
+          className="size-6 animate-spin"
+          resizeMode="contain"
+        />
+      )}
     </TouchableOpacity>
   );
 };
