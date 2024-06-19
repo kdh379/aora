@@ -13,7 +13,7 @@ const Input = ({
   return (
     <TextInput
       className={cn(
-        "h-16 w-full flex-1 rounded-2xl border-2 border-black-200 bg-black-100 px-4 font-semibold text-white focus:border-secondary",
+        "h-16 w-full rounded-2xl border-2 border-black-200 bg-black-100 px-4 font-semibold text-white focus:border-secondary",
         className,
       )}
       placeholderTextColor="#7b7b8b"

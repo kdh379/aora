@@ -84,13 +84,13 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="create"
         options={{
-          title: "추가",
+          title: "생성",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               icon={icons.plus}
               color={color}
-              name="추가"
+              name="생성"
               focused={focused}
             />
           ),

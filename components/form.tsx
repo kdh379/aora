@@ -54,12 +54,11 @@ const FormItem = ({ label, required, className, children, ...props }: FormItemPr
 
   return (
     <View className={cn("space-y-2", className)} {...props}>
-      <View className={cn("flex-row items-center")}>
+      <View className={cn("mb-2 flex-row items-center")}>
         <Text
           className={cn(
             "font-medium text-gray-100",
             error && "text-red-500",
-            className,
           )}
           {...props}
         >

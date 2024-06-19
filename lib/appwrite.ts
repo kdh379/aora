@@ -1,4 +1,7 @@
-import { Account, Avatars, Client, Databases, ID, Models, Query } from "react-native-appwrite";
+import { Account, Avatars, Client, Databases, ID, ImageGravity, Models, Query, Storage } from "react-native-appwrite";
+import { ImagePickerAsset } from "expo-image-picker";
+
+import type { CreateFormSchemaType } from "@/app/(tabs)/create";
 
 export const config = {
   endpoint: "https://cloud.appwrite.io/v1",
@@ -24,14 +27,15 @@ const {
 const client = new Client();
 
 client
-  .setEndpoint(config.endpoint) // Your Appwrite Endpoint
-  .setProject(config.projectId) // Your project ID
-  .setPlatform(config.platform) // Your application ID or bundle ID.
+  .setEndpoint(endpoint) // Your Appwrite Endpoint
+  .setProject(projectId) // Your project ID
+  .setPlatform(platform) // Your application ID or bundle ID.
 ;
 
 const account = new Account(client);
 const avatars = new Avatars(client);
 const databases = new Databases(client);
+const storage = new Storage(client);
 
 export interface User extends Models.Document {
   email: string;
@@ -64,8 +68,8 @@ export const createUser = async({ email, password, username }: SignUpProps) => {
     await signIn({ email, password });
 
     const newUser = await databases.createDocument(
-      config.databaseId,
-      config.userCollectionId,
+      databaseId,
+      userCollectionId,
       ID.unique(),
       {
         email,
@@ -113,8 +117,8 @@ export const getCurrentUser = async(): Promise<User | undefined> => {
     if (!currentAccount) return;
 
     const result = await databases.listDocuments(
-      config.databaseId,
-      config.userCollectionId,
+      databaseId,
+      userCollectionId,
       [Query.equal("accountId", currentAccount.$id)],
     );
 
@@ -202,5 +206,78 @@ export const getUserPosts = async(userId: string): Promise<Post[]> => {
   } catch (error) {
     console.error(error);
     throw new Error("Failed to get all posts", { cause: error });
+  }
+};
+
+const getFilePreview = async(fileId: string, type: "image" | "video") => {
+  let fileUrl;
+  try {
+    if (type === "video") {
+      fileUrl = storage.getFileView(storageId, fileId);
+    } else if (type === "image") {
+      fileUrl = storage.getFilePreview(storageId, fileId, 400, 400, ImageGravity.Top, 100);
+    } else {
+      throw new Error("Invalid file type");
+    }
+
+    if (!fileUrl) throw Error;
+
+    return fileUrl;
+  } catch (error) {
+    throw new Error("Failed to get file preview", { cause: error });
+  }
+};
+
+const uploadFile = async(file: ImagePickerAsset, type: "image" | "video") => {
+  if (!file) return;
+
+  const { mimeType, fileSize, fileName } = file;
+  if (!mimeType || !fileSize || !fileName) throw new Error("Invalid file");
+
+  try {
+
+    const asset = {
+      name: fileName,
+      type: mimeType,
+      size: fileSize,
+      uri: file.uri,
+    };
+
+    const uploadFile = await storage.createFile(
+      storageId,
+      ID.unique(),
+      asset,
+    );
+
+    const fileUrl = await getFilePreview(uploadFile.$id, type);
+    return fileUrl;
+  } catch (error) {
+    new Error("Failed to upload file", { cause: error });
+  }
+};
+
+export const createVideo = async(formData: CreateFormSchemaType & {userId: string}) => {
+  try {
+    const [thumbnailUrl, videoUrl] = await Promise.all([
+      uploadFile(formData.thumbnail, "image"),
+      uploadFile(formData.video, "video"),
+    ]);
+
+    const newPost = await databases.createDocument(
+      databaseId,
+      videoCollectionId,
+      ID.unique(),
+      {
+        title: formData.title,
+        prompt: formData.prompt,
+        thumbnail: thumbnailUrl,
+        video: videoUrl,
+        creator: formData.userId,
+      },
+    );
+
+    return newPost;
+  } catch (error) {
+    throw new Error("Failed to create video", { cause: error });
   }
 };
