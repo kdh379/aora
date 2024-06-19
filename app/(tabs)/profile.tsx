@@ -1,16 +1,17 @@
-import { View, FlatList, Image } from "react-native";
+import { View, FlatList, Image, Text } from "react-native";
 import React from "react";
 import { router } from "expo-router";
 
 import EmptyState from "@/components/empty-state";
 import { Post, getUserPosts, signOut } from "@/lib/appwrite";
 import useAppwrite from "@/lib/use-appwrite";
-import VideoCard from "@/components/video-card";
+import VideoCard, { VideoCardSkeleton } from "@/components/video-card";
 import { useGlobalContext } from "@/context/global-provider";
 import CustomButton from "@/components/custom-button";
 import { icons } from "@/constants";
 import InfoBox from "@/components/info-box";
 import AreaWrapper from "@/components/area-wrapper";
+import { cn } from "@/lib/cn";
 
 const Profile = () => {
   const { user, setUser } = useGlobalContext();
@@ -76,14 +77,27 @@ const Profile = () => {
                 titleStyles="text-lg"
               />
             </View>
+
+            <View className={cn("mt-12 w-full", isLoading ? "" : "hidden")}>
+              <VideoCardSkeleton />
+              <VideoCardSkeleton />
+              <VideoCardSkeleton />
+            </View>
           </View>
         )}
         ListEmptyComponent={() => (
           <EmptyState
-            title="동영상을 찾을 수 없습니다."
-            subtitle="다른 검색어를 입력해보세요."
+            title="업로드한 영상이 없습니다."
+            subtitle="첫번째 영상을 업로드해보세요!"
             className={isLoading ? "hidden" : ""}
-          />
+          >
+            <CustomButton
+              className="my-5 w-full"
+              onPress={() => router.push("/create")}
+            >
+              <Text className="font-semibold text-lg text-primary">비디오 만들기</Text>
+            </CustomButton>
+          </EmptyState>
         )}
       />
     </AreaWrapper>

@@ -1,6 +1,7 @@
 import { View, Text, FlatList, RefreshControl } from "react-native";
 import React, { useState } from "react";
 import { Image } from "react-native";
+import { router } from "expo-router";
 
 import { useGlobalContext } from "@/context/global-provider";
 import { images } from "@/constants";
@@ -8,9 +9,11 @@ import Trending from "@/components/trending";
 import EmptyState from "@/components/empty-state";
 import { Post, getAllPosts, getLatestPosts } from "@/lib/appwrite";
 import useAppwrite from "@/lib/use-appwrite";
-import VideoCard from "@/components/video-card";
+import VideoCard, { VideoCardSkeleton } from "@/components/video-card";
 import SearchInput from "@/components/search-input";
 import AreaWrapper from "@/components/area-wrapper";
+import CustomButton from "@/components/custom-button";
+import { cn } from "@/lib/cn";
 
 const Home = () => {
   const {
@@ -73,6 +76,12 @@ const Home = () => {
                 posts={latestPosts || []}
               />
             </View>
+
+            <View className={cn("mt-12 w-full", isPostsLoading ? "" : "hidden")}>
+              <VideoCardSkeleton />
+              <VideoCardSkeleton />
+              <VideoCardSkeleton />
+            </View>
           </View>
         )}
         ListEmptyComponent={() => (
@@ -80,7 +89,14 @@ const Home = () => {
             title="동영상을 찾을 수 없습니다."
             subtitle="먼저 비디오를 만들어보세요!"
             className={isPostsLoading || isLatestPostsLoading ? "hidden" : ""}
-          />
+          >
+            <CustomButton
+              className="my-5 w-full"
+              onPress={() => router.push("/create")}
+            >
+              <Text className="font-semibold text-lg text-primary">비디오 만들기</Text>
+            </CustomButton>
+          </EmptyState>
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
       />
