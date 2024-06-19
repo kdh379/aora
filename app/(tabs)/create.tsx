@@ -1,4 +1,4 @@
-import { Text, ScrollView, View, TouchableOpacity, Image, Alert } from "react-native";
+import { Text, View, TouchableOpacity, Image, Alert } from "react-native";
 import React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Video } from "expo-av";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { Form, FormField, FormItem } from "@/components/form";
 import Input from "@/components/input";
@@ -68,7 +69,7 @@ const Create = () => {
 
   return (
     <AreaWrapper>
-      <ScrollView className="mb-2 mt-6 h-full px-4">
+      <KeyboardAwareScrollView className="mb-2 mt-6 h-full px-4">
         <Text className="mb-8 font-semibold text-2xl text-white">
           동영상 업로드
         </Text>
@@ -196,7 +197,7 @@ const Create = () => {
             </Text>
           </CustomButton>
         </Form>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </AreaWrapper>
   );
 };

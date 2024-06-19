@@ -1,9 +1,11 @@
-import { View, Text, ScrollView, Image, Alert } from "react-native";
+import { View, Text, Image, Alert } from "react-native";
 import React, { useState } from "react";
 import { Link, router } from "expo-router";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { AppwriteException } from "react-native-appwrite";
 
 import { Form, FormField, FormItem } from "@/components/form";
 import CustomButton from "@/components/custom-button";
@@ -16,7 +18,7 @@ import AreaWrapper from "@/components/area-wrapper";
 
 const signInSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(8),
 });
 
 type SignInSchemaType = z.infer<typeof signInSchema>;
@@ -45,8 +47,20 @@ const SignIn = () => {
 
       router.replace("/home");
     } catch (error) {
-      console.error(error);
-      Alert.alert("요청을 처리하는 중에 문제가 발생했습니다.");
+      if (!(error instanceof AppwriteException)) throw error;
+
+      if (error.code === 401) {
+        form.setError("email", { message: "이메일 혹은 비밀번호가 올바르지 않습니다." });
+        form.setValue("password", "");
+        return;
+      }
+
+      if (error.code === 429) {
+        Alert.alert("로그인 시도 횟수를 초과했습니다.", "잠시 후 다시 시도해주세요.");
+        form.setValue("password", "");
+        return;
+      }
+
     } finally {
       setIsSubmitting(false);
     }
@@ -54,7 +68,7 @@ const SignIn = () => {
 
   return (
     <AreaWrapper>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View className="my-6 size-full min-h-[83vh] justify-center px-4">
           <Image
             source={images.logo}
@@ -118,7 +132,7 @@ const SignIn = () => {
             </Link>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </AreaWrapper>
   );
 };

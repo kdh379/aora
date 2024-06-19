@@ -1,9 +1,10 @@
-import { View, Text, ScrollView, Image, Alert } from "react-native";
+import { View, Text, Image, Alert } from "react-native";
 import React, { useState } from "react";
 import { Link, router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { customErrorMap } from "@/lib/zod";
 import { images } from "@/constants";
@@ -18,7 +19,7 @@ import AreaWrapper from "@/components/area-wrapper";
 const signUpSchema = z.object({
   username: z.string().min(3),
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(8),
 });
 z.setErrorMap(customErrorMap);
 
@@ -58,7 +59,7 @@ const SignUp = () => {
 
   return (
     <AreaWrapper>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View className="my-6 size-full min-h-[83vh] justify-center px-4">
           <Image
             source={images.logo}
@@ -142,7 +143,7 @@ const SignUp = () => {
             </Link>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </AreaWrapper>
   );
 };

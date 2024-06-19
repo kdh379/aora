@@ -10,6 +10,7 @@ export const config = {
   databaseId: "666ee84b002566a2e05e",
   userCollectionId: "666ee86300194c66e807",
   videoCollectionId: "666ee87e00260f57c892",
+  bookmarkCollectionId: "6672e350001dccf6d005",
   storageId: "666ee9a7002bcfd1832f",
 };
 
@@ -20,6 +21,7 @@ const {
   databaseId,
   userCollectionId,
   videoCollectionId,
+  bookmarkCollectionId,
   storageId,
 } = config;
 
@@ -94,8 +96,7 @@ export const signIn = async({ email, password }: SignInProps) => {
 
     return session;
   } catch (error) {
-    console.error(error);
-    throw new Error("Failed to sign in", { cause: error });
+    throw error;
   }
 };
 
@@ -200,6 +201,21 @@ export const getUserPosts = async(userId: string): Promise<Post[]> => {
       databaseId,
       videoCollectionId,
       [Query.equal("creator", userId)],
+    );
+
+    return posts.documents as Post[];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get all posts", { cause: error });
+  }
+};
+
+export const getBookmarkPosts = async(userId: string): Promise<Post[]> => {
+  try {
+    const posts = await databases.listDocuments(
+      databaseId,
+      bookmarkCollectionId,
+      [Query.equal("userId", userId)],
     );
 
     return posts.documents as Post[];
