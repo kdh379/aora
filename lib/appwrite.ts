@@ -6,12 +6,12 @@ import type { CreateFormSchemaType } from "@/app/(tabs)/create";
 export const config = {
   endpoint: "https://cloud.appwrite.io/v1",
   platform: "com.gombandal.aora",
-  projectId: "666ee708000b0ae7e6a3",
-  databaseId: "666ee84b002566a2e05e",
-  userCollectionId: "666ee86300194c66e807",
-  videoCollectionId: "666ee87e00260f57c892",
-  bookmarkCollectionId: "6672e350001dccf6d005",
-  storageId: "666ee9a7002bcfd1832f",
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  databaseId: process.env.EXPO_PUBLIC_DATABASE_ID,
+  userCollectionId: process.env.EXPO_PUBLIC_USER_COLLECTION_ID,
+  videoCollectionId: process.env.EXPO_PUBLIC_VIDEO_COLLECTION_ID,
+  bookmarkCollectionId: process.env.EXPO_PUBLIC_BOOKMARK_COLLECTION_ID,
+  storageId: process.env.EXPO_PUBLIC_STORAGE_ID,
 };
 
 const {
