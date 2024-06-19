@@ -189,3 +189,18 @@ export const searchPosts = async(query: string): Promise<Post[]> => {
     throw new Error("Failed to get all posts", { cause: error });
   }
 };
+
+export const getUserPosts = async(userId: string): Promise<Post[]> => {
+  try {
+    const posts = await databases.listDocuments(
+      databaseId,
+      videoCollectionId,
+      [Query.equal("creator", userId)],
+    );
+
+    return posts.documents as Post[];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get all posts", { cause: error });
+  }
+};
