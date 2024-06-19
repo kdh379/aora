@@ -1,12 +1,12 @@
 import { Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Image, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "@/constants";
 import CustomButton from "@/components/custom-button";
 import { useGlobalContext } from "@/context/global-provider";
 import { cn } from "@/lib/cn";
+import AreaWrapper from "@/components/area-wrapper";
 
 export default function App() {
   const { isLoading, user } = useGlobalContext();
@@ -16,10 +16,7 @@ export default function App() {
   );
 
   return (
-    <SafeAreaView className="h-full bg-primary" style={{
-      backgroundColor: "#161622", // @see https://github.com/nativewind/nativewind/issues/628#issuecomment-2046987837
-      height: "100%",
-    }}>
+    <AreaWrapper>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="min-h-[85vh] w-full items-center justify-center px-4 transition-all">
           <Image
@@ -62,6 +59,6 @@ export default function App() {
 
         <StatusBar backgroundColor="#161622" style="light" />
       </ScrollView>
-    </SafeAreaView>
+    </AreaWrapper>
   );
 }

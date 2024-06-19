@@ -1,6 +1,5 @@
 import { View, Text, FlatList, RefreshControl } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 
 import { useGlobalContext } from "@/context/global-provider";
@@ -11,6 +10,7 @@ import { Post, getAllPosts, getLatestPosts } from "@/lib/appwrite";
 import useAppwrite from "@/lib/use-appwrite";
 import VideoCard from "@/components/video-card";
 import SearchInput from "@/components/search-input";
+import AreaWrapper from "@/components/area-wrapper";
 
 const Home = () => {
   const {
@@ -34,10 +34,7 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary" style={{
-      backgroundColor: "#161622",
-      height: "100%",
-    }}>
+    <AreaWrapper>
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
@@ -87,7 +84,7 @@ const Home = () => {
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
       />
-    </SafeAreaView>
+    </AreaWrapper>
   );
 };
 

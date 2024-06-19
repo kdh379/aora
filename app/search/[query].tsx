@@ -1,6 +1,5 @@
 import { View, Text, FlatList } from "react-native";
 import React, { useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 
 import EmptyState from "@/components/empty-state";
@@ -8,6 +7,7 @@ import { Post, searchPosts } from "@/lib/appwrite";
 import useAppwrite from "@/lib/use-appwrite";
 import VideoCard from "@/components/video-card";
 import SearchInput from "@/components/search-input";
+import AreaWrapper from "@/components/area-wrapper";
 
 const Search = () => {
   const { query } = useLocalSearchParams();
@@ -25,10 +25,7 @@ const Search = () => {
   }, [query]);
 
   return (
-    <SafeAreaView className="bg-primary" style={{
-      backgroundColor: "#161622",
-      height: "100%",
-    }}>
+    <AreaWrapper>
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
@@ -56,7 +53,7 @@ const Search = () => {
           />
         )}
       />
-    </SafeAreaView>
+    </AreaWrapper>
   );
 };
 

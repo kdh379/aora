@@ -1,6 +1,5 @@
 import { View, FlatList, Image } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
 import EmptyState from "@/components/empty-state";
@@ -11,6 +10,7 @@ import { useGlobalContext } from "@/context/global-provider";
 import CustomButton from "@/components/custom-button";
 import { icons } from "@/constants";
 import InfoBox from "@/components/info-box";
+import AreaWrapper from "@/components/area-wrapper";
 
 const Profile = () => {
   const { user, setUser } = useGlobalContext();
@@ -27,10 +27,7 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary" style={{
-      backgroundColor: "#161622",
-      height: "100%",
-    }}>
+    <AreaWrapper>
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
@@ -89,7 +86,7 @@ const Profile = () => {
           />
         )}
       />
-    </SafeAreaView>
+    </AreaWrapper>
   );
 };
 

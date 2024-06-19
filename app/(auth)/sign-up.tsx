@@ -1,6 +1,5 @@
 import { View, Text, ScrollView, Image, Alert } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +13,7 @@ import { Form, FormField, FormItem } from "@/components/form";
 import Input from "@/components/input";
 import { useGlobalContext } from "@/context/global-provider";
 import SecureInput from "@/components/secure-input";
+import AreaWrapper from "@/components/area-wrapper";
 
 const signUpSchema = z.object({
   username: z.string().min(3),
@@ -57,10 +57,7 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView className="h-full bg-primary" style={{
-      backgroundColor: "#161622",
-      height: "100%",
-    }}>
+    <AreaWrapper>
       <ScrollView>
         <View className="my-6 size-full min-h-[83vh] justify-center px-4">
           <Image
@@ -146,7 +143,7 @@ const SignUp = () => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </AreaWrapper>
   );
 };
 
