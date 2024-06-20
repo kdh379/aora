@@ -23,6 +23,26 @@ Aora는 미디어 업로드 및 공유 플랫폼입니다. 이 프로젝트는 R
 - **프로필**: 업로드한 미디어 확인 및 로그아웃 기능을 제공합니다.
 - **북마크 기능**: 사용자가 관심 있는 콘텐츠를 북마크하여 쉽게 접근할 수 있습니다.
 
+<div align="center" class="flex">
+  
+**회원가입**
+
+[회원가입](https://github.com/kdh379/aora/assets/46153202/3e8b4972-0035-423a-90e1-fe889f38c19e)
+
+**로그인**
+
+[로그인](https://github.com/kdh379/aora/assets/46153202/0597b92e-0e72-4b95-b010-ef8234845dda)
+
+**폼 작성**
+
+[폼 작성](https://github.com/kdh379/aora/assets/46153202/d8975fdb-f0b8-4c6b-b0fa-12310d917c7c)
+
+**검색**
+
+[검색](https://github.com/kdh379/aora/assets/46153202/9fc3b1a5-d6fe-4b9e-922d-4fa8846849d1)
+
+</div>
+
 ### 영상과 차별점
 
 - 영상의 내용을 그대로 사용하지 않고, 다르게 구현한 부분을 아래 설명하였습니다.
